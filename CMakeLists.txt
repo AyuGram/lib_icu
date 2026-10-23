@@ -3,7 +3,7 @@
 # We do not and cannot prevent the use of our code,
 # but be respectful and credit the original author.
 #
-# Copyright @Radolyn, 2025
+# Copyright @Radolyn, 2026
 
 add_library(icu_regex_minimal STATIC)
 
@@ -481,10 +481,7 @@ PRIVATE
     icu_source/i18n/zonemeta.cpp
     icu_source/i18n/zrule.cpp
     icu_source/i18n/ztrans.cpp
-
 )
-
-
 
 target_include_directories(icu_regex_minimal
     PUBLIC
@@ -532,8 +529,8 @@ const size_t ${VAR_NAME}_size = ${file_size};
  target_include_directories(${TARGET_NAME} PRIVATE "${CMAKE_CURRENT_BINARY_DIR}/generated")
 endfunction()
 
-set(MINIMAL_ICU_DAT_FILE "${src_loc}/data/icudt78l.dat")
-embed_binary_data(icu_regex_minimal icudt78_dat "${MINIMAL_ICU_DAT_FILE}")
+set(MINIMAL_ICU_DAT_FILE "${src_loc}/data/icudt79l.dat")
+embed_binary_data(icu_regex_minimal icudt79_dat "${MINIMAL_ICU_DAT_FILE}")
 
 
 target_compile_definitions(icu_regex_minimal PRIVATE
@@ -558,4 +555,8 @@ target_compile_definitions(icu_regex_minimal PRIVATE
 if(MSVC)
  # otherwise "too many characters in constant" will occur in uchar.cpp
  target_compile_options(icu_regex_minimal PRIVATE "/utf-8")
+endif()
+if(APPLE)
+ set_target_properties(icu_regex_minimal PROPERTIES
+  XCODE_ATTRIBUTE_OTHER_LIBTOOLFLAGS "-no_warning_for_no_symbols")
 endif()
